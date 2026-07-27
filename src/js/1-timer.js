@@ -44,7 +44,7 @@ function convertMs(ms) {
 function updateTimer(ms) {
   const { days, hours, minutes, seconds } = convertMs(ms);
 
-  daysEl.textContent = String(days); 
+  daysEl.textContent = addLeadingZero(days);
   hoursEl.textContent = addLeadingZero(hours);
   minutesEl.textContent = addLeadingZero(minutes);
   secondsEl.textContent = addLeadingZero(seconds);
