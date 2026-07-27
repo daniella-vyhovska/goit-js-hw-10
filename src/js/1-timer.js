@@ -18,6 +18,10 @@ startBtn.disabled = true;
 let userSelectedDate = null;
 let timerId = null;
 
+function addLeadingZero(value) {
+  return String(value).padStart(2, "0");
+}
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -37,6 +41,15 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+function updateTimer(ms) {
+  const { days, hours, minutes, seconds } = convertMs(ms);
+
+  daysEl.textContent = String(days); 
+  hoursEl.textContent = addLeadingZero(hours);
+  minutesEl.textContent = addLeadingZero(minutes);
+  secondsEl.textContent = addLeadingZero(seconds);
+}
+
 
 const options = {
   enableTime: true,
@@ -44,15 +57,16 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-      console.log(selectedDates[0]);
-      const now = new Date();
+    const pickedDate = selectedDates[0];
+    const now = new Date();
 
-      if (pickedDate <= now) {
-        iziToast.error({
+    if (pickedDate <= now) {
+      iziToast.error({
         title: "Error",
         message: "Please choose a date in the future",
         position: "topRight",
       });
+
       startBtn.disabled = true;
       userSelectedDate = null;
       return;
@@ -86,14 +100,5 @@ startBtn.addEventListener("click", () => {
   }, 1000);
 });
 
-
-function updateTimer(ms) {
-  const { days, hours, minutes, seconds } = convertMs(ms);
-
-  daysEl.textContent = String(days); 
-  hoursEl.textContent = addLeadingZero(hours);
-  minutesEl.textContent = addLeadingZero(minutes);
-  secondsEl.textContent = addLeadingZero(seconds);
-}
 
 
